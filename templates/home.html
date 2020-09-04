@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MaskAPI</title>
+</head>
+<body>
+  <h1>MaskAPI</h1>
+  <p><a href="/frontend/detectmask">Demo</a></p>
+  <p>Endpoint: /api/detect_mask</p>
+  <p>POST Request Body (JSON):</p>
+  <pre>
+{
+  img: string value; base 64 encoded image,
+  find_face: boolean value; set this to true if image is not already cropped to face, default: false
+}
+  </pre>
+  <p>Response (JSON):</p>
+  <pre>
+{
+  is_wearing_mask: boolean value; whether the person in the image is wearing a mask,
+  face_found: boolean value; only present if find_face was true, indicates whether a face was detected,
+  error: string value; only present if an error occurred, provides error details
+}
+  </pre>
+  <p>For best results, crop image to face first and then call the API endpoint with find_face = false. There are many existing face detection systems in existence already, so this system does not seek to improve upon those. If find_face is set to true, Haar cascade classifiers from OpenCV will be used for face detection.</p>
+  <p>The mask detection model is a convolutional neural network which was trained for 1.3 million passes on a dataset of 10,000 examples (before data augmentation). The model achieved 99%+ accuracy and F1 score on the test set (and train and dev sets).</p>
+  <p>For more information, contact: d.xu ( @ ) columbia edu</p>
+</body>
+</html>

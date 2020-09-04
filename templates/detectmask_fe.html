@@ -5,6 +5,9 @@
 </head>
 <body>
   <input type="file" id="imgup" accept="image/*"/>
+  <br/>
+  <input type="checkbox" id="enablefacesearch" checked/>
+  <label for="enablefacesearch">Auto-crop to face</label>
   <p>Mask Detected:</p>
   <p id="result">N/A</p>
   <script>
@@ -21,10 +24,11 @@
           },
           body: JSON.stringify({
             img: fReader.result,
-            find_face: true
+            find_face: !!document.getElementById("enablefacesearch").checked
           })
         }).then((res) => res.json()).then((res) => {
-          document.getElementById("result").innerText = res.is_wearing_mask;
+          console.log(res)
+          document.getElementById("result").innerText = JSON.stringify(res);
         });;
       };
       fReader.readAsDataURL(f);

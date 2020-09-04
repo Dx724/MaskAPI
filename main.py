@@ -21,11 +21,10 @@ app.config["DEBUG"] = False
 def crop_to_face(img): #Returns (faceFound, croppedImage)
   cvImg = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR) #OpenCV Color Representation
   cvGray = cv2.cvtColor(cvImg, cv2.COLOR_BGR2GRAY) #OpenCV Grayscale Representation
-  faces = face_cascade.detectMultiScale(cvGray, 1.25, 5)
+  faces = [*face_cascade.detectMultiScale(cvGray, 1.25, 5), *face_cascade_2.detectMultiScale(cvGray, 1.25, 5),
+            *face_cascade.detectMultiScale(cvGray, 1.1, 3), *face_cascade_2.detectMultiScale(cvGray, 1.1, 3)]
   if (len(faces) < 1):
-    faces.extend(face_cascade_2.detectMultiScale(cvGray, 1.25, 5))
-    if (len(faces) < 1):
-      return (False, None)
+    return (False, None)
   largestIdx = 0
   largestSize = 0
   fIdx = 0
@@ -61,7 +60,7 @@ def error_to_500(f):
 @app.route("/", methods=["GET"])
 @error_to_500
 def home():
-  return "<h1>MaskAPI</h1>"
+  return render_template("home.html"), 200
 
 @app.route("/api/test", methods=["GET"])
 @error_to_500
