@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MaskAPI Image View FE</title>
+</head>
+<body>
+  <input type="file" id="imgup" accept="image/*"/>
+  <script>
+    document.getElementById("imgup").addEventListener("change", (evt) => {
+      var fReader = new FileReader();
+      var f = document.getElementById("imgup").files[0];
+      fReader.onloadend = () => {
+        var fName = f.name;
+        fetch("/api/imgtest", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            img: fReader.result
+          })
+        }).then((res) => res.text()).then((res) => {
+          document.documentElement.innerHTML = res;
+        });;
+      };
+      fReader.readAsDataURL(f);
+    });
+  </script>
+</body>
+</html>

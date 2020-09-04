@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MaskAPI Detect Mask FE</title>
+</head>
+<body>
+  <input type="file" id="imgup" accept="image/*"/>
+  <p>Mask Detected:</p>
+  <p id="result">N/A</p>
+  <script>
+    document.getElementById("imgup").addEventListener("change", (evt) => {
+      var fReader = new FileReader();
+      var f = document.getElementById("imgup").files[0];
+      fReader.onloadend = () => {
+        document.getElementById("result").innerText = "Processing..."
+        var fName = f.name;
+        fetch("/api/detect_mask", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            img: fReader.result,
+            find_face: true
+          })
+        }).then((res) => res.json()).then((res) => {
+          document.getElementById("result").innerText = res.is_wearing_mask;
+        });;
+      };
+      fReader.readAsDataURL(f);
+    });
+  </script>
+</body>
+</html>
