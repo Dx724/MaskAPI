@@ -1,5 +1,5 @@
 # MaskAPI
-A free web API for detecting whether a user is wearing a mask
+A free web API for detecting whether someone is wearing a mask. Sample use cases include entry control and in-app delivery driver verification.
 
 ## Endpoint: /api/detect_mask
 POST Request Body (JSON):
@@ -21,8 +21,9 @@ Response (JSON):
  
 For best results, crop image to face first and then call the API endpoint with find_face = false. There are many existing face detection systems in existence already, so this system does not seek to improve upon those. If find_face is set to true, Haar cascade classifiers from OpenCV will be used for face detection.
 
+## Additional Information
 The mask detection model is a convolutional neural network which was trained for 1.3 million passes on a dataset of 10,000 examples (before data augmentation). The model achieved 99%+ accuracy and F1 score on the test set (and train and dev sets).
 
 A demo can be found at /frontend/detectmask and documentation can be found at the root.
 
-Note that this API is no longer being hosted. However, the code is provided here. The model is available as a saved model ([/mask_model](mask_model)) in HDF5 format which can be loaded with TensorFlow/Keras.
+> Note that this API is no longer being hosted. However, the code is provided here. The model is available as a saved model ([/mask_model](mask_model)) in HDF5 format which can be loaded with TensorFlow/Keras.
